@@ -37,7 +37,7 @@ body {
 }
 
 .subtitle {
-  color: #999;
+  color: #5c5c5c;
   line-height: 2.25rem;
   margin-top: 1em;
   margin-bottom: 1.5em;
@@ -46,7 +46,7 @@ body {
 
 
 .message {
-  color: #aaa;
+  color: #5b5b5b;
   font-size: .875em;
   text-align: left;
 }
@@ -68,6 +68,10 @@ body {
   overflow: hidden;
   transition: background 300ms ease-out;
   border-left: 4px solid white;
+}
+
+.disqualified {
+  opacity: 0.4;
 }
 
 .player:before {
@@ -184,4 +188,9 @@ body {
   .player.selected:hover {
     background-color: #fefff4;
   }
+}
+
+a:hover, a:visited, a:link, a:active
+{
+  text-decoration: none;
 }

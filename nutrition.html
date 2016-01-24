@@ -1,0 +1,134 @@
+<template name="nutrition">
+  <section class="performance-facts">
+    <header class="performance-facts__header">
+      <h1 class="performance-facts__title">Nutrition Facts</h1>
+      <p><!--Serving Size 1 package--></p>
+    </header>
+    <table class="performance-facts__table">
+      <thead>
+      <tr>
+        <th colspan="3" class="small-info">
+          <!--Amount Per Serving-->
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th colspan="2">
+          <b>Calories</b>
+          {{toLocalString calories}}
+        </th>
+        <td>
+          Calories from Fat
+          {{calsFromFat totalFat}}
+        </td>
+      </tr>
+      <tr class="thick-row">
+        <td colspan="3" class="small-info">
+          <b>% Daily Value*</b>
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2">
+          <b>Total Fat</b>
+          {{totalFat}}g
+        </th>
+        <td>
+          <b>{{percent totalFat 65}}%</b>
+        </td>
+      </tr>
+      <tr>
+        <td class="blank-cell">
+        </td>
+        <th>
+          Saturated Fat
+          {{satFat}}g
+        </th>
+        <td>
+          <b>{{percent satFat 20}}%</b>
+        </td>
+      </tr>
+      <tr>
+        <td class="blank-cell">
+        </td>
+        <th>
+          Trans Fat
+          {{transFat}}g
+        </th>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2">
+          <b>Cholesterol</b>
+          {{cholesterol}}mg
+        </th>
+        <td>
+          <b>{{percent cholesterol 300}}%</b>
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2">
+          <b>Sodium</b>
+          {{toLocalString sodium}}mg
+        </th>
+        <td>
+          <b>{{percent sodium 2400}}%</b>
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2">
+          <b>Total Carbohydrate</b>
+          {{carbs}}g
+        </th>
+        <td>
+          <b>{{percent carbs 300}}%</b>
+        </td>
+      </tr>
+      <tr>
+        <td class="blank-cell">
+        </td>
+        <th>
+          Dietary Fiber
+          {{fiber}}g
+        </th>
+        <td>
+          <b>{{percent fiber 25}}%</b>
+        </td>
+      </tr>
+      <tr>
+        <td class="blank-cell">
+        </td>
+        <th>
+          Sugars
+          {{sugars}}g
+        </th>
+        <td>
+        </td>
+      </tr>
+      <tr class="thick-end">
+        <th colspan="2">
+          <b>Protein</b>
+          {{protein}}g
+        </th>
+        <td>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <p class="small-info">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs:</p>
+
+    <p class="small-info">
+      Calories per gram:
+    </p>
+    <p class="small-info text-center">
+      Fat 9
+      &bull;
+      Carbohydrate 4
+      &bull;
+      Protein 4
+    </p>
+
+  </section>
+</template>

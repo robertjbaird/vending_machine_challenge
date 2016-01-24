@@ -35,7 +35,7 @@
 </template>
 
 <template name="header">
-  <div class="logo"></div>
+  <a href="{{pathFor "Home"}}"><div class="logo"></div></a>
   <h1 class="title"><a href="{{pathFor "Home"}}">Vending Machine Challenge</a></h1>
   <hr/>
 </template>
@@ -58,22 +58,36 @@
   {{> foodlist}}
 
 
-  <div class="subtitle">Manage users / participants:</div>
+
   {{> manageUsers}}
-  <hr/>
+
 
 </template>
 
 <template name="overall_stats">
   <div class="subtitle">Food stats:</div>
-  <div class="message">{{totalItems}} items have been consumed so far.</div>
+  <div class="message">{{totalEatenItems}} items have been consumed so far.
+    There are {{countAllItems}} items to eat overall. A total of {{totalEatenCals}} calories
+    have been ingested so far.</div>
+  <br/>
+  <div class="message"> The contestants have eaten {{totalPoundsOfFat}} pounds of fat.
+  Each contestant has had an average of {{averageItems}} things, {{averageCals}} calories,
+    and {{averageSugar}} grams of sugar.</div>
+  <br/>
+  <div class="message">The total mass of all food consumed so far is {{totalMass}} grams.</div>
+  <br/>
+  <div class="message">{{disqualCountText}}</div>
+
 </template>
 
 
 <template name="leaderboard">
+  <div class="message">The leaderboard is sorted by total number of items consumed. Click on any
+    contestant to see their nutritional statistics.</div>
+  <br/>
   <ol class="leaderboard">
     {{#each player in players}}
-      <li class="player">
+      <li class="player {{disqualified player.thrownUp}}">
         <span class="name"><a href="{{pathFor 'Player.show' _id=player._id}}">{{player.name}}</a></span>
         <span class="score">{{player.score}}</span>
       </li>
@@ -82,14 +96,20 @@
 </template>
 
 <template name="player_controller">
-  <div class="subtitle">Inside player_controller: {{data.player._id}}</div>
-  <div class="subtitle">Score: {{data.player.score}}</div>
+  <h2 class="subtitle">{{data.player.name}}</h2>
+  <div class="subtitle">Items consumed: {{data.player.score}}</div>
 
   {{#if isInRole 'admin'}}
     <hr/>
     {{> quickForm collection="Players" doc=data.player id="updatePlayerForm" type="update" autosave=true}}
-    {{> quickRemoveButton collection="Snacks" _id=data.snack._id}}
   {{/if}}
+  {{#if isInRole 'admin'}}
+    <hr/>
+    {{> quickRemoveButton collection="Players" _id=data.player}}
+  {{/if}}
+
+
+  {{> nutrition collectPlayerNutrition}}
 </template>
 
 <template name="foodlist">
@@ -109,11 +129,17 @@
 </template>
 
 <template name="snack_controller">
-  <div class="subtitle">Inside snack_controller: {{data.snack._id}}</div>
-  <div class="subtitle">Calories: {{data.snack.score}}</div>
+  <h2 class="subtitle">{{data.snack.name}}</h2>
 
-  {{> quickForm collection="Snacks" doc=data.snack id="updateSnackForm" type="update" autosave=true}}
-  {{> quickRemoveButton collection="Snacks" _id=data.snack._id}}
+  {{#if isInRole 'admin'}}
+    <div class="subtitle">Edit info:</div>
+    {{> quickForm collection="Snacks" doc=data.snack id="updateSnackForm" type="update" autosave=true}}
+    {{> quickRemoveButton collection="Snacks" _id=data.snack._id}}
+    <hr/>
+  {{/if}}
+
+  {{> nutrition data.snack}}
+
 </template>
 
 <template name="insertSnackForm">
@@ -128,22 +154,16 @@
   {{/if}}
 </template>
 
-
-
-
-
-
 <template name="manageUsers">
-  <ol class="leaderboard">
-    {{#each allUsers}}
-      {{> manageUser}}
-    {{/each}}
-  </ol>
-</template>
-
-<template name="manageUser">
-  <li class="player {{selected}}">
-    <span class="name">{{username}}</span>
-    <span class="score"><button type="submit" class="btn btn-primary toggle">Submit</button></span>
-  </li>
+  {{#if isInRole 'admin'}}
+    <div class="subtitle">Manage users / participants:</div>
+    <ol class="leaderboard">
+      {{#each allUsers}}
+        <li class="player">
+          <span class="name">{{username}} - {{email}}</span>
+          <span class="score"><button type="submit" class="btn btn-primary toggle">{{buttonText}}</button></span>
+        </li>
+      {{/each}}
+    </ol>
+  {{/if}}
 </template>

@@ -3,7 +3,24 @@ Players.attachSchema(new SimpleSchema({
   name: {
     type: String,
     label: "Name",
-    max: 200
+    max: 200,
+    autoform: {
+      editable: false,
+      omit: true
+    }
+  },
+  thrownUp: {
+    type: Boolean,
+    label: "Thrown up",
+    defaultValue: false
+  },
+  userId: {
+    type: String,
+    optional: true,
+    autoform: {
+      editable: false,
+      omit: true
+    }
   },
   score: {
     type: Number,
@@ -45,9 +62,60 @@ Snacks.attachSchema(new SimpleSchema({
     label: "Name",
     max: 200
   },
+  grams: {
+    type: Number,
+    label: "Grams",
+    defaultValue: 0
+  },
   calories: {
     type: Number,
-    label: "Calories"
+    label: "Calories",
+    defaultValue: 0
+  },
+  totalFat: {
+    type: Number,
+    label: "Total fat",
+    defaultValue: 0
+  },
+  satFat: {
+    type: Number,
+    label: "Saturated fat",
+    defaultValue: 0
+  },
+  transFat: {
+    type: Number,
+    label: "Trans fat",
+    defaultValue: 0
+  },
+  cholesterol: {
+    type: Number,
+    label: "Cholesterol",
+    defaultValue: 0
+  },
+  sodium: {
+    type: Number,
+    label: "Sodium",
+    defaultValue: 0
+  },
+  carbs: {
+    type: Number,
+    label: "Carbohydrates",
+    defaultValue: 0
+  },
+  fiber: {
+    type: Number,
+    label: "Fiber",
+    defaultValue: 0
+  },
+  sugars: {
+    type: Number,
+    label: "Sugars",
+    defaultValue: 0
+  },
+  protein: {
+    type: Number,
+    label: "Protein",
+    defaultValue: 0
   },
   price: {
     type: Number,
@@ -72,7 +140,6 @@ FlowRouter.notFound = {
 FlowRouter.route('/snack/:_id', {
   name: 'Snack.show',
   action: function(params, queryParams) {
-    console.log("Yeah! We are on the snack:", params._id);
     BlazeLayout.render('layout1', { top: "header", main: "snack_controller"});
   }
 });
@@ -80,7 +147,6 @@ FlowRouter.route('/snack/:_id', {
 FlowRouter.route('/player/:_id', {
   name: 'Player.show',
   action: function(params, queryParams) {
-    console.log("Yeah! We are on the player: ", params._id);
     BlazeLayout.render('layout1', { top: "header", main: "player_controller"});
   }
 });
@@ -91,11 +157,15 @@ if (Meteor.isClient) {
   Template.leaderboard.helpers({
     players: function () {
       return Players.find({}, { sort: { score: -1, name: 1 } });
+    },
+    disqualified: function(thrownUp) {
+      if (thrownUp) return "disqualified";
+      else return "";
     }
   });
 
   Template.overall_stats.helpers({
-    totalItems: function() {
+    totalEatenItems: function() {
       var items = 0;
       var cursor = Players.find();
       if (!cursor.count()) return 0;
@@ -104,6 +174,37 @@ if (Meteor.isClient) {
         items = items + player.snacks.length;
       });
       return items;
+    },
+    countAllItems: function () {
+      return Snacks.find().count() * Players.find().count();
+    },
+    totalEatenCals: function() {
+      return (5000).toLocaleString();
+    },
+    totalPoundsOfFat: function() {
+      return 2.05;
+    },
+    averageItems: function() {
+      return 0.5;
+    },
+    averageCals: function() {
+      return 500;
+    },
+    averageSugar: function() {
+      return 50;
+    },
+    totalMass: function() {
+      return (4000).toLocaleString();
+    },
+    disqualCountText: function() {
+      var count = Players.find({thrownUp: true}).count();
+      if (count === 0) {
+        return "No one has thrown up yet.";
+      } else if (count === 1) {
+        return "One person is disqualified for throwing up.";
+      } else {
+        return count + " people are now disqualified for throwing up.";
+      }
     }
   });
 
@@ -111,6 +212,62 @@ if (Meteor.isClient) {
     data: function () {
       var p = Players.findOne(FlowRouter.getParam("_id"));
       return {player: p};
+    },
+    collectPlayerNutrition: function() {
+      var p = Players.findOne(FlowRouter.getParam("_id"));
+
+      var calories = 0;
+      var totalFat = 0;
+      var satFat = 0;
+      var transFat = 0;
+      var cholesterol = 0;
+      var sodium = 0;
+      var carbs = 0;
+      var fiber = 0;
+      var sugars = 0;
+      var protein = 0;
+
+      if (p.snacks !== undefined) {
+        p.snacks.forEach(function(snackId) {
+          var snack = Snacks.findOne(snackId);
+          if (snack.calories    !== undefined)  calories =     calories +    snack.calories;
+          if (snack.totalFat    !== undefined)  totalFat =     totalFat +    snack.totalFat;
+          if (snack.satFat      !== undefined)  satFat =       satFat +      snack.satFat;
+          if (snack.transFat    !== undefined)  transFat =     transFat +    snack.transFat;
+          if (snack.cholesterol !== undefined)  cholesterol =  cholesterol + snack.cholesterol;
+          if (snack.sodium      !== undefined)  sodium =       sodium +      snack.sodium;
+          if (snack.carbs       !== undefined)  carbs =        carbs +       snack.carbs;
+          if (snack.fiber       !== undefined)  fiber =        fiber +       snack.fiber;
+          if (snack.sugars      !== undefined)  sugars =       sugars +      snack.sugars;
+          if (snack.protein     !== undefined)  protein =      protein +     snack.protein;
+        });
+      }
+
+      return {
+        calories: calories,
+        totalFat: totalFat,
+        satFat: satFat,
+        transFat: transFat,
+        cholesterol: cholesterol,
+        sodium: sodium,
+        carbs: carbs,
+        fiber: fiber,
+        sugars: sugars,
+        protein: protein
+      };
+
+    }
+  });
+
+  Template.nutrition.helpers({
+    calsFromFat: function(fat) {
+      return fat*9;
+    },
+    toLocalString: function(number) {
+      return number.toLocaleString();
+    },
+    percent: function(value, rdv) {
+      return Math.round((value/rdv)*100);
     }
   });
 
@@ -118,13 +275,6 @@ if (Meteor.isClient) {
     data: function () {
       var s = Snacks.findOne(FlowRouter.getParam("_id"));
       return {snack: s};
-    }
-  });
-
-  Template.layout1.helpers({
-    parentDebug: function() {
-      console.log("layout1 debug:");
-      console.dir(this);
     }
   });
 
@@ -151,12 +301,34 @@ if (Meteor.isClient) {
   Template.manageUsers.helpers({
     allUsers: function() {
       return Meteor.users.find();
+    },
+    email: function() {
+      return this.emails[0].address;
+    },
+    buttonText: function() {
+      var u = Players.findOne({userId: this._id});
+      if (u === undefined) {
+        return "Create";
+      } else {
+        return "Remove";
+      }
     }
   });
 
-  Template.manageUser.events({
+  Template.manageUsers.events({
     'click .toggle': function () {
-      console.dir(this);
+
+      var u = Players.findOne({userId: this._id});
+      if (u === undefined) {
+        Players.insert({
+          name: this.username,
+          userId: this._id
+        });
+      } else {
+        Players.find({userId: this._id}).fetch().forEach(function(player) {
+          Players.remove(player._id);
+        });
+      }
     }
   });
 
@@ -169,11 +341,18 @@ if (Meteor.isServer) {
   Meteor.publish('Snacks', function() {
     return Snacks.find();
   });
+  Meteor.publish('Users', function () {
+    return Meteor.users.find();
+  })
 }
 
 if (Meteor.isClient) {
   Meteor.subscribe('Players');
   Meteor.subscribe('Snacks');
+  Meteor.subscribe('Users');
+  Accounts.ui.config({
+    passwordSignupFields: 'USERNAME_AND_EMAIL'
+  });
 }
 
 // On server startup, create some players if the database is empty.
@@ -190,18 +369,15 @@ if (Meteor.isServer) {
       });
     }
     if (Players.find().count() === 0) {
-      var names = ["Ada Lovelace", "Grace Hopper", "Marie Curie",
-                   "Carl Friedrich Gauss", "Nikola Tesla", "Claude Shannon"];
+      var names = ["Jon Snow", "Arya Stark", "Tyrion Lannister",
+                   "Margaery Tyrell", "Khal Drogo", "Daenerys Targaryen"];
       _.each(names, function (name) {
         Players.insert({
-          name: name,
-          score: Math.floor(Random.fraction() * 10) * 5
+          name: name
         });
       });
     }
   });
-
-
 }
 
 Accounts.onCreateUser(function(options, user){
@@ -228,13 +404,5 @@ Accounts.onCreateUser(function(options, user){
 
   return user;
 });
-
-if (Meteor.isClient) {
-  Accounts.ui.config({
-    passwordSignupFields: 'USERNAME_AND_EMAIL'
-  });
-
-
-}
 
 
