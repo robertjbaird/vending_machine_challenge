@@ -37,6 +37,226 @@ Players.attachSchema(new SimpleSchema({
       }
     }
   },
+  grams: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.grams;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
+  calories: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.calories;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
+  totalFat: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.totalFat;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
+  satFat: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.satFat;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
+  transFat: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.transFat;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
+  cholesterol: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.cholesterol;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
+  sodium: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.sodium;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
+  carbs: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.carbs;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
+  fiber: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.fiber;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
+  sugars: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.sugars;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
+  protein: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function() {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.protein;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
   snacks: {
     type: [String],
     optional: true,
@@ -54,6 +274,9 @@ Players.attachSchema(new SimpleSchema({
     }
   }
 }));
+
+
+
 
 Snacks = new Mongo.Collection("snacks");
 Snacks.attachSchema(new SimpleSchema({
@@ -123,6 +346,22 @@ Snacks.attachSchema(new SimpleSchema({
     optional: true
   }
 }));
+
+
+var fetchConsumedSnackData = new function(snackIds, nutritionField) {
+  if (snackIds === undefined) {
+    return 0;
+  }
+
+  var total = 0;
+  snackIds.forEach(function (snackId) {
+    var snack = Snacks.findOne(snackId);
+    total = total + snack.nutritionField;
+  });
+
+  return total;
+
+};
 
 FlowRouter.route('/', {
   name: 'Home',
@@ -227,7 +466,7 @@ if (Meteor.isClient) {
       var sugars = 0;
       var protein = 0;
 
-      if (p.snacks !== undefined) {
+      if (p !== undefined && p.snacks !== undefined) {
         p.snacks.forEach(function(snackId) {
           var snack = Snacks.findOne(snackId);
           if (snack.calories    !== undefined)  calories =     calories +    snack.calories;
@@ -264,6 +503,7 @@ if (Meteor.isClient) {
       return fat*9;
     },
     toLocalString: function(number) {
+      if (number === undefined || number === null) return (0).toLocaleString();
       return number.toLocaleString();
     },
     percent: function(value, rdv) {
@@ -357,6 +597,31 @@ if (Meteor.isClient) {
 
 // On server startup, create some players if the database is empty.
 if (Meteor.isServer) {
+  Accounts.onCreateUser(function(options, user){
+    if (Meteor.users.find().count() === 0) {
+      console.log("Making new user admin");
+
+      var userId = user._id = Random.id();
+      var handle = Meteor.users.find({_id: userId}, {fields: {_id: 1}}).observe({
+        added: function () {
+          Roles.addUsersToRoles(userId, ['admin']);
+          console.log("Updated user.");
+          handle.stop();
+          handle = null;
+        }
+      });
+
+      // In case the document is never inserted
+      Meteor.setTimeout(function() {
+        if (handle) {
+          handle.stop();
+        }
+      }, 30000);
+    }
+
+    return user;
+  });
+
   Meteor.startup(function () {
     if (Snacks.find().count() === 0) {
       var names2 = ["Chips", "Popcorn", "Poptarts"];
@@ -379,30 +644,5 @@ if (Meteor.isServer) {
     }
   });
 }
-
-Accounts.onCreateUser(function(options, user){
-  if (Meteor.users.find().count() === 0) {
-    console.log("Making new user admin");
-
-    var userId = user._id = Random.id();
-    var handle = Meteor.users.find({_id: userId}, {fields: {_id: 1}}).observe({
-      added: function () {
-        Roles.addUsersToRoles(userId, ['admin']);
-        console.log("Updated user.");
-        handle.stop();
-        handle = null;
-      }
-    });
-
-    // In case the document is never inserted
-    Meteor.setTimeout(function() {
-      if (handle) {
-        handle.stop();
-      }
-    }, 30000);
-  }
-
-  return user;
-});
 
 
