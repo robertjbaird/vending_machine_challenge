@@ -148,6 +148,19 @@ if (Meteor.isClient) {
         protein: protein
       };
 
+    },
+    showUpdateForm: function(player) {
+      var loggedInUser = Meteor.user();
+
+      if (loggedInUser === undefined || loggedInUser === null) {
+        return false;
+      } else if (Roles.userIsInRole(loggedInUser, ['admin'])) {
+        return true;
+      } else if (player !== undefined && player.userId === loggedInUser._id) {
+        return true;
+      } else {
+        return false;
+      }
     }
   });
 
