@@ -1,4 +1,3 @@
-
 if (Meteor.isClient) {
   Template.leaderboard.helpers({
     players: function () {
@@ -25,22 +24,69 @@ if (Meteor.isClient) {
       return Snacks.find().count() * Players.find().count();
     },
     totalEatenCals: function() {
-      return (5000).toLocaleString();
+      var total = 0;
+      var cursor = Players.find();
+      if (!cursor.count()) return 0;
+      cursor.forEach(function(player) {
+        if (player.calories) {
+          total = total + player.calories;
+        }
+      });
+      return total;
     },
     totalPoundsOfFat: function() {
-      return 2.05;
+      var total = 0;
+      var cursor = Players.find();
+      if (!cursor.count()) return 0;
+      cursor.forEach(function(player) {
+        if (player.totalFat) {
+          total = total + player.totalFat;
+        }
+      });
+      return (total*0.00220462).toPrecision(4);
     },
     averageItems: function() {
-      return 0.5;
+      var items = 0;
+      var cursor = Players.find();
+      if (!cursor.count()) return 0;
+      cursor.forEach(function(player) {
+        if (player.snacks !== undefined)
+          items = items + player.snacks.length;
+      });
+      return (items / Players.find().count()).toPrecision(3);
     },
     averageCals: function() {
-      return 500;
+      var total = 0;
+      var cursor = Players.find();
+      if (!cursor.count()) return 0;
+      cursor.forEach(function(player) {
+        if (player.calories) {
+          total = total + player.calories;
+        }
+      });
+      return (total / Players.find().count()).toPrecision(3);
     },
     averageSugar: function() {
-      return 50;
+      var total = 0;
+      var cursor = Players.find();
+      if (!cursor.count()) return 0;
+      cursor.forEach(function(player) {
+        if (player.sugars) {
+          total = total + player.sugars;
+        }
+      });
+      return (total / Players.find().count()).toPrecision(3);
     },
     totalMass: function() {
-      return (4000).toLocaleString();
+      var total = 0;
+      var cursor = Players.find();
+      if (!cursor.count()) return 0;
+      cursor.forEach(function(player) {
+        if (player.grams) {
+          total = total + player.grams;
+        }
+      });
+      return total;
     },
     disqualCountText: function() {
       var count = Players.find({thrownUp: true}).count();
@@ -102,6 +148,19 @@ if (Meteor.isClient) {
         protein: protein
       };
 
+    },
+    showUpdateForm: function(player) {
+      var loggedInUser = Meteor.user();
+
+      if (loggedInUser === undefined || loggedInUser === null) {
+        return false;
+      } else if (Roles.userIsInRole(loggedInUser, ['admin'])) {
+        return true;
+      } else if (player !== undefined && player.userId === loggedInUser._id) {
+        return true;
+      } else {
+        return false;
+      }
     }
   });
 

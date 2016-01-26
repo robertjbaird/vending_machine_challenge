@@ -95,7 +95,7 @@
   <h2 class="subtitle">{{data.player.name}}</h2>
   <div class="subtitle">Items consumed: {{data.player.score}}</div>
 
-  {{#if isInRole 'admin'}}
+  {{#if showUpdateForm data.player}}
     <hr/>
     {{> quickForm collection="Players" doc=data.player id="updatePlayerForm" type="update" autosave=true}}
   {{/if}}
