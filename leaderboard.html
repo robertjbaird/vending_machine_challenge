@@ -94,6 +94,7 @@
 <template name="player_controller">
   <h2 class="subtitle">{{data.player.name}}</h2>
   <div class="subtitle">Items consumed: {{data.player.score}}</div>
+  <div class="subtitle">Mass consumed: {{data.player.grams}}</div>
 
   {{#if showUpdateForm data.player}}
     <hr/>
@@ -104,8 +105,16 @@
     {{> quickRemoveButton collection="Players" _id=data.player}}
   {{/if}}
 
-
   {{> nutrition collectPlayerNutrition}}
+
+  <ol class="leaderboard">
+    {{#each snack in snacks}}
+      <li class="player">
+        <span class="name"><a href="{{pathFor 'Snack.show' _id=snack._id}}">{{snack.name}}</a></span>
+        <span class="score">{{snack.calories}}</span>
+      </li>
+    {{/each}}
+  </ol>
 </template>
 
 <template name="foodlist">

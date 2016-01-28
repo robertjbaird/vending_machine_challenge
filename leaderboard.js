@@ -122,17 +122,19 @@ if (Meteor.isClient) {
       if (p !== undefined && p.snacks !== undefined) {
         p.snacks.forEach(function(snackId) {
           var snack = Snacks.findOne(snackId);
-          if (snack.calories    !== undefined)  calories =     calories +    snack.calories;
-          if (snack.totalFat    !== undefined)  totalFat =     totalFat +    snack.totalFat;
-          if (snack.satFat      !== undefined)  satFat =       satFat +      snack.satFat;
-          if (snack.transFat    !== undefined)  transFat =     transFat +    snack.transFat;
-          if (snack.cholesterol !== undefined)  cholesterol =  cholesterol + snack.cholesterol;
-          if (snack.sodium      !== undefined)  sodium =       sodium +      snack.sodium;
-          if (snack.carbs       !== undefined)  carbs =        carbs +       snack.carbs;
-          if (snack.fiber       !== undefined)  fiber =        fiber +       snack.fiber;
-          if (snack.sugars      !== undefined)  sugars =       sugars +      snack.sugars;
-          if (snack.protein     !== undefined)  protein =      protein +     snack.protein;
-        });
+          if (snack !== undefined) {
+            if (snack.calories    !== undefined)  calories =     calories +    snack.calories;
+            if (snack.totalFat    !== undefined)  totalFat =     totalFat +    snack.totalFat;
+            if (snack.satFat      !== undefined)  satFat =       satFat +      snack.satFat;
+            if (snack.transFat    !== undefined)  transFat =     transFat +    snack.transFat;
+            if (snack.cholesterol !== undefined)  cholesterol =  cholesterol + snack.cholesterol;
+            if (snack.sodium      !== undefined)  sodium =       sodium +      snack.sodium;
+            if (snack.carbs       !== undefined)  carbs =        carbs +       snack.carbs;
+            if (snack.fiber       !== undefined)  fiber =        fiber +       snack.fiber;
+            if (snack.sugars      !== undefined)  sugars =       sugars +      snack.sugars;
+            if (snack.protein     !== undefined)  protein =      protein +     snack.protein;
+          }
+         });
       }
 
       return {
@@ -160,6 +162,15 @@ if (Meteor.isClient) {
         return true;
       } else {
         return false;
+      }
+    },
+    snacks: function() {
+      var p = Players.findOne(FlowRouter.getParam("_id"));
+
+      if (p !== undefined && p.snacks !== undefined && p.snacks.length !== 0) {
+        return Snacks.find({_id: {$in: p.snacks}});
+      } else {
+        return [];
       }
     }
   });
