@@ -45,6 +45,10 @@ body {
 }
 
 
+.note {
+  padding: 10px;
+}
+
 .message {
   color: #5b5b5b;
   font-size: .875em;
