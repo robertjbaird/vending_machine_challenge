@@ -53,7 +53,7 @@ if (Meteor.isServer) {
         sodium: 170,
         carbs: 15,
         fiber: 1,
-        sugars: 0
+        sugars: 0,
         protein: 2,
         price: 75
       });

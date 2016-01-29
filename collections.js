@@ -275,6 +275,26 @@ Players.attachSchema(new SimpleSchema({
       }
     }
   },
+  money: {
+    type: Number,
+    autoform: {
+      editable: true,
+      omit: true
+    },
+    autoValue: function () {
+      var snacks = this.field("snacks");
+      if (snacks.isSet && snacks.value.length !== 0) {
+        var total = 0;
+        snacks.value.forEach(function (snackId) {
+          var snack = Snacks.findOne(snackId);
+          total = total + snack.price;
+        });
+        return total;
+      } else {
+        return 0;
+      }
+    }
+  },
   snacks: {
     type: [String],
     optional: true,
