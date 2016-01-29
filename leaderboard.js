@@ -1,6 +1,10 @@
 if (Meteor.isClient) {
   RouterAutoscroll.animationDuration = 0;
 
+  Template.registerHelper("setTitle", function(title) {
+    document.title = title;
+  });
+
   Template.registerHelper("toDollars", function(cents) {
     return "$" + (cents/100).toFixed(2);
   });
@@ -49,7 +53,7 @@ if (Meteor.isClient) {
           total = total + player.totalFat;
         }
       });
-      return (total*0.00220462).toPrecision(4);
+      return (total*0.00220462).toFixed(2);
     },
     averageItems: function() {
       var items = 0;
