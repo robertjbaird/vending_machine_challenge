@@ -1,8 +1,6 @@
 if (Meteor.isClient) {
   RouterAutoscroll.animationDuration = 0;
 
-
-
   Template.leaderboard.helpers({
     players: function () {
       return Players.find({}, { sort: { score: -1, name: 1 } });
@@ -276,54 +274,6 @@ if (Meteor.isClient) {
   });
 }
 
-// On server startup, create some players if the database is empty.
-if (Meteor.isServer) {
-  Accounts.onCreateUser(function(options, user){
-    if (Meteor.users.find().count() === 0) {
-      console.log("Making new user admin");
 
-      var userId = user._id = Random.id();
-      var handle = Meteor.users.find({_id: userId}, {fields: {_id: 1}}).observe({
-        added: function () {
-          Roles.addUsersToRoles(userId, ['admin']);
-          console.log("Updated user.");
-          handle.stop();
-          handle = null;
-        }
-      });
-
-      // In case the document is never inserted
-      Meteor.setTimeout(function() {
-        if (handle) {
-          handle.stop();
-        }
-      }, 30000);
-    }
-
-    return user;
-  });
-
-  Meteor.startup(function () {
-    if (Snacks.find().count() === 0) {
-      var names2 = ["Chips", "Popcorn", "Poptarts"];
-      _.each(names2, function (name) {
-        console.log("Inserting a new snack with name: " + name);
-        Snacks.insert({
-          name: name,
-          calories: Math.floor(Random.fraction() *100) *5
-        })
-      });
-    }
-    if (Players.find().count() === 0) {
-      var names = ["Jon Snow", "Arya Stark", "Tyrion Lannister",
-                   "Margaery Tyrell", "Khal Drogo", "Daenerys Targaryen"];
-      _.each(names, function (name) {
-        Players.insert({
-          name: name
-        });
-      });
-    }
-  });
-}
 
 
