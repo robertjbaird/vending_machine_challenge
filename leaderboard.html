@@ -48,13 +48,11 @@
 
 <template name="overview">
 
-  {{> overall_stats}}
-
-  <hr/>
   <div class="subtitle">Leaderboard:</div>
   {{> leaderboard}}
 
-  <div class="subtitle">Foods:</div>
+  {{> overall_stats}}
+
   {{> foodlist}}
 
   {{> manageUsers}}
@@ -64,15 +62,15 @@
 <template name="overall_stats">
   <div class="subtitle">Food stats:</div>
   <div class="note">{{totalEatenItems}} items have been consumed so far.
-    There are {{countAllItems}} items to eat overall. A total of {{totalEatenCals}} calories
-    have been ingested so far.</div>
-  <br/>
+    There are {{countAllItems}} items to eat overall. Everyone has now eaten
+    {{totalEatenCals}} calories!</div>
+
   <div class="note"> The contestants have eaten {{totalPoundsOfFat}} pounds of fat.
   Each contestant has had an average of {{averageItems}} things, {{averageCals}} calories,
     and {{averageSugar}} grams of sugar.</div>
-  <br/>
+
   <div class="note">The total mass of all food consumed so far is {{totalMass}} grams.</div>
-  <br/>
+
   <div class="note">{{disqualCountText}}</div>
 
 </template>
@@ -95,7 +93,7 @@
 <template name="player_controller">
   <h2 class="subtitle">{{data.player.name}}</h2>
   <div class="subtitle">Items consumed: {{data.player.score}}</div>
-  <div class="subtitle">Mass consumed: {{data.player.grams }}</div>
+  <div class="subtitle">Mass consumed: {{data.player.grams }}g</div>
   <div class="subtitle">Money: {{toDollars data.player.money}}</div>
 
   {{#if showUpdateForm data.player}}
@@ -120,6 +118,8 @@
 </template>
 
 <template name="foodlist">
+  <hr/>
+  <div class="subtitle">Foods:</div>
   <ol class="leaderboard">
     {{#each snack in snacks}}
       <li class="player">
