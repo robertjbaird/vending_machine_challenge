@@ -10,6 +10,9 @@ if (Meteor.isClient) {
   });
 
   Template.leaderboard.helpers({
+    freeText: function() {
+      return Settings.findOne({name: "freeText"}).value;
+    },
     players: function () {
       return Players.find({}, { sort: { score: -1, name: 1 } });
     },
@@ -259,6 +262,11 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.editFreeText.helpers({
+    freeTextSetting: function() {
+      return Settings.findOne({name: "freeText"});
+    }
+  });
 }
 
 if (Meteor.isServer) {
@@ -270,13 +278,18 @@ if (Meteor.isServer) {
   });
   Meteor.publish('Users', function () {
     return Meteor.users.find();
-  })
+  });
+  Meteor.publish('Settings', function () {
+    return Settings.find();
+  });
+
 }
 
 if (Meteor.isClient) {
   Meteor.subscribe('Players');
   Meteor.subscribe('Snacks');
   Meteor.subscribe('Users');
+  Meteor.subscribe('Settings');
   Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL'
   });

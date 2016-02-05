@@ -16,6 +16,28 @@
 //
 //};
 
+Settings = new Mongo.Collection("settings");
+Settings.attachSchema(new SimpleSchema({
+  name: {
+    type: String,
+    label: "Name",
+    autoform: {
+      editable: false,
+      omit: true
+    }
+  },
+  value: {
+    type: String,
+    label: "Value",
+    defaultValue: "",
+    optional: true,
+    autoform: {
+      editable: true,
+      omit: false
+    }
+  }
+}));
+
 Players = new Mongo.Collection("players");
 Players.attachSchema(new SimpleSchema({
   name: {

@@ -57,6 +57,8 @@
 
   {{> manageUsers}}
 
+  {{> editFreeText}}
+
 </template>
 
 <template name="overall_stats">
@@ -77,6 +79,10 @@
 
 
 <template name="leaderboard">
+  {{#if freeText}}
+    <div class="note">{{freeText}}</div>
+  {{/if}}
+
   <div class="note">The leaderboard is sorted by total number of items consumed. Click on any
     contestant to see their nutritional statistics.</div>
   <br/>
@@ -172,5 +178,12 @@
         </li>
       {{/each}}
     </ol>
+  {{/if}}
+</template>
+
+<template name="editFreeText">
+  {{#if isInRole 'admin'}}
+    <div class="subtitle">Free text edit:</div>
+    {{> quickForm collection="Settings" doc=freeTextSetting id="updateFreeText" type="update"}}
   {{/if}}
 </template>

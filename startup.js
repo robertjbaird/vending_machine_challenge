@@ -26,6 +26,12 @@ if (Meteor.isServer) {
   });
 
   Meteor.startup(function () {
+    if (Settings.find().count() === 0) {
+      Settings.insert({
+        name: "freeText",
+        value: ""
+      });
+    }
     if (Snacks.find().count() === 0) {
       Snacks.insert({
         name: 'Lays Classic Chips',
