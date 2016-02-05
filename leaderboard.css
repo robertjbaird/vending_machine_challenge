@@ -181,10 +181,6 @@ body {
     padding: 10px 20px;
   }
 
-  body {
-    margin: 2em 0 4em 0;
-  }
-
   .player:hover {
     background-color: inherit;
   }
