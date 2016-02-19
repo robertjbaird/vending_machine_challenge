@@ -710,7 +710,7 @@ if (Meteor.isServer) {
       });
     }
     if (Players.find().count() === 0) {
-      var names = ["If you eat everything"];
+      var names = ['If you eat everything', 'DJ', 'Melissa', 'Nee', 'Nick'];
       _.each(names, function (name) {
         Players.insert({
           name: name
