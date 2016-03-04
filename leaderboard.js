@@ -77,7 +77,7 @@ if (Meteor.isClient) {
           total = total + player.calories;
         }
       });
-      return (total / Players.find().count()).toPrecision(3);
+      return (total / Players.find().count());
     },
     averageSugar: function() {
       var total = 0;
@@ -100,6 +100,18 @@ if (Meteor.isClient) {
         }
       });
       return total;
+    },
+    cupsOfSugar: function() {
+      var total = 0;
+      var cursor = Players.find();
+      if (!cursor.count()) return 0;
+      cursor.forEach(function(player) {
+        if (player.grams) {
+          total = total + player.sugars;
+        }
+      });
+      // 225 grams of sugar in one cup
+      return (total / 225).toPrecision(2);
     },
     disqualCountText: function() {
       var count = Players.find({thrownUp: true}).count();
