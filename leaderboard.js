@@ -23,6 +23,10 @@ if (Meteor.isClient) {
   });
 
   Template.overall_stats.helpers({
+    toLocalString: function(number) {
+      if (number === undefined || number === null) return (0).toLocaleString();
+      return number.toLocaleString();
+    },
     totalEatenItems: function() {
       var items = 0;
       var cursor = Players.find();
