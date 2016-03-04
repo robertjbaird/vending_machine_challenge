@@ -110,7 +110,7 @@
   {{/if}}
   {{#if isInRole 'admin'}}
     <hr/>
-    {{> quickRemoveButton collection="Players" _id=data.player}}
+    {{> quickRemoveButton collection="Players" _id=data.player._id}}
   {{/if}}
 
   {{> nutrition collectPlayerNutrition}}
