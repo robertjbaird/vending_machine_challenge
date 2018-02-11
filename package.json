@@ -1,0 +1,26 @@
+{
+  "name": "vending_machine_challenge",
+  "version": "1.0.0",
+  "description": "Meteor project for running a Vending Machine Challenge",
+  "main": "leaderboard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robertjbaird/vending_machine_challenge.git"
+  },
+  "keywords": [
+    "vending"
+  ],
+  "author": "robert baird",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robertjbaird/vending_machine_challenge/issues"
+  },
+  "homepage": "https://github.com/robertjbaird/vending_machine_challenge#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.39",
+    "bcrypt": "^1.0.3"
+  }
+}
